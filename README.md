@@ -91,6 +91,7 @@ ACC102-Board-Game-Complexity-Explorer/
 ├── app.py
 ├── Board Game.ipynb
 ├── bgg_cleaned.csv
+├── BGG_Data_Set.csv
 ├── README.md
 └── requirements.txt
 
@@ -130,6 +131,8 @@ To run the app successfully, make sure these files are in the same repository fo
 - `app.py`
 - `bgg_cleaned.csv`
 - `requirements.txt`
+  
+`BGG_Data_Set.csv` is the original dataset used.
 
 The file `bgg_cleaned.csv` must be in the same folder as `app.py`, because the app reads it directly using a relative file path.
 
