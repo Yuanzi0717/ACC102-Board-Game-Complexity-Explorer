@@ -2,134 +2,157 @@
 
 ## Project Overview
 
-This project is an ACC102 Track 4 interactive data analysis tool that explores how board game complexity relates to user ratings and market popularity. The central question is whether more complex board games tend to receive higher ratings and stronger user engagement.
+This project is an ACC102 Track 4 interactive data analysis tool. It explores how board game complexity relates to user ratings and market popularity.
 
-Rather than analysing complexity in isolation, the project evaluates its relationship with both perceived quality (rating) and market reach (ownership). The final output combines a Python-based analytical workflow with a Streamlit application, allowing users to explore the dataset dynamically instead of relying on static charts.
+The central question is whether more complex board games tend to receive higher ratings and stronger user engagement. The project does not analyse complexity alone. It also considers rating and ownership, because a highly rated game is not always widely owned, and a popular game is not always complex.
 
----
+The final product combines a Python notebook with a local Streamlit application. The notebook shows the full analytical workflow, while the Streamlit app allows users to explore the results interactively.
 
-## Analytical Focus and Data Context
+## Target Users
 
-The analysis is built around two key relationships:
+The intended users are:
 
-- the relationship between **complexity and rating**
-- the relationship between **complexity and popularity**
+- board game buyers
+- casual players
+- game designers
 
-This dual perspective is important because highly rated games are not always widely owned, and popular games are not necessarily complex. By analysing both dimensions together, the project provides a more realistic understanding of product performance.
+The tool helps these users compare games based on complexity, rating, and popularity. It also provides recommendations based on different user goals.
 
-The dataset is based on BoardGameGeek data obtained from Kaggle. It contains over 20,000 board games and includes variables such as complexity scores, user ratings, ownership counts, and gameplay characteristics. The data were originally collected in February 2021, last updated in May 2022, and accessed for this project in April 2026.
+## Dataset
 
----
+The dataset is based on BoardGameGeek data obtained from Kaggle. It contains over 20,000 board games and includes variables such as:
 
-## Data Preparation and Cleaning
+- game name
+- year published
+- player numbers
+- playing time
+- average rating
+- average complexity
+- owned users
 
-Before analysis, the notebook applies a structured data cleaning process to ensure consistency and reliability. Column names are standardised, missing values are examined, and rows with missing values in the core variables are removed. The `domains` column is dropped due to its high level of missing data, and duplicate entries are eliminated.
+The data were originally collected in February 2021, last updated in May 2022, and accessed for this project in April 2026.
 
-To improve robustness, the project also introduces additional treatments:
+After cleaning, the dataset is saved as `bgg_cleaned.csv`, which is used by the Streamlit app.
 
-- a **trimmed mean (5%–95%)** to reduce the impact of extreme values  
-- a **log transformation of popularity** to address heavy skewness  
-- filtering to retain only key analytical variables  
+## Python Workflow
 
-After cleaning, the dataset is exported as `bgg_cleaned.csv`, which is directly used in the Streamlit application.
+The notebook includes the following workflow:
 
----
+1. Load and inspect the dataset
+2. Standardise column names
+3. Check missing values
+4. Remove duplicate records
+5. Drop columns with serious missingness
+6. Select key analytical variables
+7. Produce descriptive statistics
+8. Apply 5%–95% trimmed mean treatment
+9. Apply log transformation to popularity
+10. Analyse relationships between complexity, rating, and owned users
+11. Create charts and grouped summaries
+12. Export the cleaned dataset for the Streamlit app
 
-## Analytical Approach
+## Main Analysis
 
-The analysis combines descriptive exploration with relationship-based methods. Initial descriptive statistics provide an overview of the dataset, including medians, trimmed means, and grouped summaries. This step highlights the uneven distribution of board game popularity and user engagement.
+The analysis focuses on two main relationships:
 
-The core analysis focuses on the relationship between complexity and rating. A scatter plot is used to visualise the distribution, and a correlation coefficient is calculated to quantify the strength of the relationship. The results show a moderate positive relationship, indicating that more complex games tend to receive higher ratings, although the effect is not strong enough to be predictive on its own.
+1. Complexity and rating
+2. Complexity and popularity
 
-The relationship between complexity and popularity is analysed separately. When popularity is measured using raw ownership counts, the correlation is extremely weak. Because ownership data is highly skewed, a log transformation is applied, which improves interpretability but still shows only a limited relationship. This confirms that popularity depends on many factors beyond complexity.
+The project uses descriptive statistics, scatter plots, correlation analysis, grouped comparisons, and visualisations.
 
-To improve interpretability further, games are grouped into complexity ranges. This grouped analysis shows that while higher complexity is associated with stronger ratings, popularity does not increase consistently. The conclusion is therefore more nuanced: complexity contributes to perceived quality, but does not guarantee market success.
+The main finding is that complexity has a moderate positive relationship with rating, but it does not automatically lead to mass popularity. This suggests that complexity may improve perceived quality among experienced players, but it can also reduce accessibility for casual users.
 
----
+## Streamlit App Features
 
-## Streamlit Application
+The Streamlit app includes:
 
-The Streamlit app transforms the analysis into an interactive product. Users can adjust filters such as complexity range, minimum rating, and minimum ownership, allowing them to explore different segments of the dataset based on their own preferences.
+- sidebar filters for complexity range, minimum rating, and minimum owned users
+- real-time summary metrics
+- an interactive complexity-rating scatter plot
+- an OLS trendline
+- automatic interpretation of the correlation result
+- a recommendation section
+- a Top 10 owned games bar chart
+- an expandable filtered data table
 
-The app includes several key features:
+The recommendation section allows users to choose one of four goals:
 
-- dynamic filtering through sidebar controls  
-- real-time summary metrics (games, rating, complexity, ownership)  
-- an interactive scatter plot  
-- automatic statistical interpretation  
-- a Top 10 popularity chart  
-- an expandable data table  
+- Balanced Choice
+- Highest Rated
+- Most Popular
+- Lower Complexity
 
-The main visualisation is a scatter plot where:
+The app then ranks games using rating, owned users, and complexity.
 
-- x-axis represents complexity  
-- y-axis represents rating  
-- bubble size represents popularity  
-- colour represents complexity level  
+## Repository Structure
 
-A key enhancement in the updated version is the inclusion of an **OLS-based trendline**. This trendline provides a visual representation of the regression relationship, making it easier to identify the direction of the relationship. Together with the correlation coefficient calculated in real time, it strengthens the analytical credibility of the tool.
+```text
+ACC102-Board-Game-Complexity-Explorer/
+├── app.py
+├── Board Game.ipynb
+├── bgg_cleaned.csv
+├── README.md
+└── requirements.txt
 
-The app also generates an automatic interpretation of the correlation result, categorising the relationship as strong, moderate, or weak. This allows non-technical users to understand the meaning of the analysis without needing statistical knowledge.
+```
 
----
+## How to Run the App Locally
 
-## Key Insights
+This project is designed to run as a local Streamlit app.
 
-The project produces several important insights.
+First, clone or download this repository. Then open Terminal or Command Prompt inside the project folder that contains `app.py`.
 
-First, there is a moderate positive relationship between complexity and rating, suggesting that more complex games are often valued more highly by users. Second, the relationship between complexity and popularity is much weaker, indicating that complexity alone does not drive market adoption. Third, popularity is highly skewed, meaning that raw comparisons can be misleading and require transformation or careful interpretation.
+Install the required packages:
 
-Taken together, the findings suggest that the most practical strategy is not to maximise complexity, but to identify a balance. Moderate-to-high complexity games often achieve strong ratings while remaining accessible to a broader audience.
 
----
+```bash
+pip install -r requirements.txt
+```
 
-## How to Run the Project
+After installation, run the app with:
 
-To run the project locally, make sure the repository includes the notebook, the Streamlit application file, and the cleaned dataset. After installing the required packages, run the application using:
-
+```bash
 streamlit run app.py
+```
 
-The application will open in a browser window and can be used immediately.
+The app will open locally in a browser window, usually at:
 
-## Requirements
+```text
+http://localhost:8501
+```
 
-The project relies on the following Python libraries:
+If the browser does not open automatically, copy the local URL shown in the terminal and paste it into your browser.
 
-- pandas  
-- streamlit  
-- plotly  
-- numpy  
-- matplotlib  
-These can be installed using a requirements.txt file or directly via pip.
+## Required Files
 
----
+To run the app successfully, make sure these files are in the same repository folder:
+
+- `app.py`
+- `bgg_cleaned.csv`
+- `requirements.txt`
+
+The file `bgg_cleaned.csv` must be in the same folder as `app.py`, because the app reads it directly using a relative file path.
+
+## Demo Video
+
+The demo video is submitted separately through Mediasite on LMO.
 
 ## Limitations and Future Improvements
 
-Although the project provides useful insights, it has several limitations. The dataset is not real-time and may not reflect recent market trends. Popularity is approximated using ownership rather than actual sales or revenue, and the analysis focuses on correlation rather than causation.
+This project has several limitations. BoardGameGeek users may not represent all board game consumers, because they are usually more interested in board games than average buyers. Also, owned users is only a proxy for popularity. It does not directly measure sales, revenue, or current market demand. The analysis shows association rather than causation.
 
 Future improvements could include:
 
-- adding more features such as game mechanics or genre  
-- introducing formal regression outputs (e.g. coefficients and R²)  
-- building a recommendation system  
-- improving the user interface design  
-- incorporating more recent data  
-
----
+- adding game category, mechanics, or publisher information
+- using more recent data
+- adding price or sales data
+- using user review text for sentiment analysis
+- allowing users to customise recommendation weights
 
 ## Project Value
 
-This project demonstrates a complete data workflow from problem definition to product development. By combining analysis with an interactive interface, it moves beyond a traditional notebook and becomes a practical tool for exploring user preferences and product performance.
-
----
-
-## Demo
-
-Add your Mediasite video link here.
-
----
+This project demonstrates a complete data workflow from problem definition to product development. It uses Python for cleaning, transformation, analysis, visualisation, and interactive product design. The Streamlit app adds user value by helping users move from data exploration to practical game recommendations.
 
 ## Reflection and AI Disclosure
 
-A separate reflective report is submitted via LMO. AI tools were used to support language refinement and structure, while all analysis, logic, and outputs were independently reviewed and verified.
+A separate reflective report is submitted through LMO. The AI disclosure is included at the end of the reflective report.
